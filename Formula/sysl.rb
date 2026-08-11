@@ -1,7 +1,7 @@
 class Sysl < Formula
   desc "Ref-counted systems language that compiles through LLVM"
   homepage "https://sysl.sh/"
-  version "0.0.40"
+  version "0.0.41"
   license "ISC"
 
   # Apple silicon only -- this is what the author's machine can build. A Linux
@@ -10,7 +10,7 @@ class Sysl < Formula
   on_macos do
     on_arm do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
-      sha256 "c14e32e74091215a9d2c13c00f9db3d9f8907a7e361c8c31913d71794dc0d07a"
+      sha256 "348620df2e059c64d8c4d27e11992682d5e40de2bbc77639a25762693a315ec6"
     end
   end
 
@@ -22,12 +22,12 @@ class Sysl < Formula
   depends_on "llvm"
 
   def install
-    # The tarball is already a prefix -- bin/sysl and share/sysl/lib -- so the
+    # The tarball is already a prefix -- bin/sysl and share/sysl/library -- so the
     # whole tree moves into the keg and brew links bin/sysl itself.
     #
     # The standard library ships as source rather than being generated into the
     # binary, and the compiler finds it by resolving its own path and looking for
-    # <prefix>/share/sysl/lib. That is exactly pkgshare, which is why installing
+    # <prefix>/share/sysl/library. That is exactly pkgshare, which is why installing
     # the tree as it stands is the whole of it: no wrapper script, no environment
     # variable, and an old keg left behind keeps using the library it shipped with.
     prefix.install Dir["*"]
@@ -40,7 +40,7 @@ class Sysl < Formula
     # beside the executable rather than inside it, so a tarball built without it,
     # or an install step that dropped it, produces a compiler that starts, answers
     # --version, and cannot compile anything.
-    assert_predicate pkgshare/"lib/sysl", :directory?
+    assert_predicate pkgshare/"library/sysl", :directory?
 
     (testpath/"hello.sysl").write <<~SYSL
       print("Hello, sysl!")

@@ -1,7 +1,7 @@
 class Sysl < Formula
   desc "Ref-counted systems language that compiles through LLVM"
   homepage "https://sysl.sh/"
-  version "0.0.47"
+  version "0.0.48"
   license "ISC"
 
   # Apple silicon only -- this is what the author's machine can build. A Linux
@@ -10,7 +10,7 @@ class Sysl < Formula
   on_macos do
     on_arm do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
-      sha256 "e2e4d1bc9240b1e2a06a9e640f829d7c7a0e7c2871bf9f1a47de1c32c927d06a"
+      sha256 "96f5ef6099590d01f4b7dd06b27efceb0c343c64d6badaf8388e13ddaadeba6a"
     end
   end
 

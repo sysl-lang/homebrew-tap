@@ -1,16 +1,33 @@
 class Sysl < Formula
   desc "Ref-counted systems language that compiles through LLVM"
   homepage "https://sysl.sh/"
-  version "0.0.48"
+  version "0.0.49"
   license "ISC"
 
-  # Apple silicon only -- this is what the author's machine can build. A Linux
-  # binary needs a build runner and is not here yet; every other platform builds
-  # from source, which is a clone and one sbt invocation.
+  # Three tarballs, and each is built where it runs: Scala Native does not
+  # cross-compile, so the macOS binary comes off the author's machine and the two
+  # Linux ones off CI. Every other platform builds from source, which is a clone
+  # and one sbt invocation.
+  #
+  # The Linux binaries are built on the 22.04 images so the glibc floor stays low
+  # enough to cover Debian 12 and RHEL 9. That floor is measured from the binary
+  # at each release rather than assumed from the image -- 2.34 for this one.
   on_macos do
     on_arm do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
-      sha256 "96f5ef6099590d01f4b7dd06b27efceb0c343c64d6badaf8388e13ddaadeba6a"
+      sha256 "8bd358b98652d7db34849381135b38d593f43ba8e4416ba61da6bc8209de7aa4"
+    end
+  end
+
+  on_linux do
+    on_intel do
+      url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-x86_64.tar.gz"
+      sha256 "60566429ae0d9071cd5d29f8b846a3e7f2ad339d3800bcfa2f245f67e5742c57"
+    end
+
+    on_arm do
+      url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-arm64.tar.gz"
+      sha256 "98a1616aa9d682c7e074530dd22ccdf82ca32d3b1092ca93fcde43aa28762a3a"
     end
   end
 

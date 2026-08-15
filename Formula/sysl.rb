@@ -1,7 +1,7 @@
 class Sysl < Formula
   desc "Ref-counted systems language that compiles through LLVM"
   homepage "https://sysl.sh/"
-  version "0.0.55"
+  version "0.0.56"
   license "ISC"
 
   # Three tarballs, and each is built where it runs: Scala Native does not
@@ -15,19 +15,19 @@ class Sysl < Formula
   on_macos do
     on_arm do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
-      sha256 "5c348e7599655b537af01386b22f667d91ed7c85825ab7497b91c8c6a9f47edf"
+      sha256 "f6d86c6269cb68c2eca02fa0903b2c4813b64c56996e4e8019c71f35b574a16f"
     end
   end
 
   on_linux do
     on_intel do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-x86_64.tar.gz"
-      sha256 "7c5802b0d387edf441b06a85346acbed9805f1981ab517395487709aaf2f0df6"
+      sha256 "bb0145830c6dc5d959547c33efcc65468fbb8361b6940e790b1359c408a47678"
     end
 
     on_arm do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-arm64.tar.gz"
-      sha256 "08a47d1fb00c52c633af2a20fcd3c6967dbcbbc3bce10a22ecfae61427b09730"
+      sha256 "48441a708eea1e429a5276e66ffc9246bafa2b0bdeda5905eb03f958de63d1f1"
     end
   end
 
@@ -37,6 +37,17 @@ class Sysl < Formula
   # llvm-ar, which is why this cannot be left to whatever is already on the machine
   # -- and why Toolchain.arCandidates already looks in /opt/homebrew/opt/llvm/bin.
   depends_on "llvm"
+
+  # Also a runtime dependency, and for the same reason: sysl shells out to it.
+  # A package that binds an installed C library can declare it -- requires {
+  # pkg_config { sdl3 = "..." } } -- and the compiler asks pkg-config where
+  # that library's headers and link line are, so a consumer needs no flags.
+  #
+  # macOS ships no pkg-config and the libraries do not bring one: brew deps
+  # cairo lists fifteen packages and pkgconf is not among them. Unlike llvm
+  # this keg is not keg-only, so pkg-config lands on the PATH and the compiler
+  # finds it by bare name.
+  depends_on "pkgconf"
 
   def install
     # The tarball is already a prefix -- bin/sysl and share/sysl/library -- so the

@@ -1,7 +1,7 @@
 class Sysl < Formula
   desc "Ref-counted systems language that compiles through LLVM"
   homepage "https://sysl.sh/"
-  version "0.0.76"
+  version "0.0.77"
   license "ISC"
 
   # Three tarballs, and each is built where it runs: Scala Native does not
@@ -15,19 +15,19 @@ class Sysl < Formula
   on_macos do
     on_arm do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
-      sha256 "563c90c9b4aa2fb68eb0a8ce1bb5b05610ef790bcdcc2d031553d501bc28f0b2"
+      sha256 "b9732a7c18b785d03a92854c16b6cc0b4a84db671b0064e83a0ac03c9bab9024"
     end
   end
 
   on_linux do
     on_intel do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-x86_64.tar.gz"
-      sha256 "0cc19a16c155fca0a728618c0e262b0cd56168a9e05bce5ba120e3adae630e3b"
+      sha256 "d36213ae09e3e774e18e3485be866e97ec5b13a1d86ec3d23651844ce8f97ab2"
     end
 
     on_arm do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-arm64.tar.gz"
-      sha256 "98b3304f196cc7034c1a23162070177b89207448804bbc5b4382b16f7a920e61"
+      sha256 "232a1e3a5a82cea55f6567850fd495cae714a65839c7b2deeb11774c76889cd0"
     end
   end
 
@@ -49,6 +49,14 @@ class Sysl < Formula
   # finds it by bare name.
   depends_on "pkgconf"
 
+  # `sysl-doc`'s, not the compiler's. The doc tool links juicer-core -- the site
+  # generator without its command line -- whose server is built on microserve, and
+  # Scala Native puts `-luv` on its link line for that. `otool -L` on the shipped
+  # binary names /opt/homebrew/opt/libuv/lib/libuv.1.dylib, so this is a runtime
+  # dependency of the tarball as a whole even though `bin/sysl` itself has no use
+  # for it. juicer's own formula depends on it for the same reason.
+  depends_on "libuv"
+
   def install
     # The tarball is already a prefix -- bin/sysl and share/sysl/library -- so the
     # whole tree moves into the keg and brew links bin/sysl itself.
@@ -69,6 +77,22 @@ class Sysl < Formula
     # or an install step that dropped it, produces a compiler that starts, answers
     # --version, and cannot compile anything.
     assert_predicate pkgshare/"library/sysl", :directory?
+
+    # The second binary, and the second way this formula can be wrong and still
+    # install. `sysl doc` execs `sysl-doc` off the PATH -- git-style dispatch --
+    # so a tarball staged with only the compiler in it produces an install where
+    # `sysl doc` reports there is no sysl-doc on your PATH, on the machine where
+    # somebody has just installed one.
+    #
+    # Running it over the library that shipped in the same tarball reaches three
+    # things at once: the binary links (which is what the libuv dependency above
+    # is for), the library is where the compiler will look for it, and the two
+    # came from one tree.
+    assert_predicate bin/"sysl-doc", :executable?
+
+    system bin/"sysl-doc", pkgshare/"library", "--out", testpath/"api"
+    assert_predicate testpath/"api/sysl-text.md", :file?
+    assert_match "module: sysl.text", (testpath/"api/sysl-text.md").read
 
     (testpath/"hello.sysl").write <<~SYSL
       print("Hello, sysl!")

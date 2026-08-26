@@ -1,35 +1,29 @@
 class Sysl < Formula
   desc "Ref-counted systems language that compiles through LLVM"
   homepage "https://sysl.sh/"
-  version "0.0.81"
+  version "0.0.82-alpha"
   license "ISC"
 
-  # Three tarballs, and each is built where it runs: Scala Native does not
-  # cross-compile, so the macOS binary comes off the author's machine and the two
-  # Linux ones off CI. Every other platform builds from source, which is a clone
-  # and one sbt invocation.
+  # **THIS IS A PRERELEASE.** An early, ungated build of what becomes 0.0.82, published
+  # so that work against its four cards can carry on while that release's Native gate
+  # runs. It is superseded by 0.0.82, which restores everything below to its usual
+  # shape -- three tarballs and the glibc floor measured from the binary.
   #
-  # The Linux binaries are built on the 22.04 images so the glibc floor stays low
-  # enough to cover Debian 12 and RHEL 9. That floor is measured from the binary
-  # at each release rather than assumed from the image -- 2.34 for this one.
+  # Ordinarily: each tarball is built where it runs, since Scala Native does not
+  # cross-compile, so the macOS binary comes off the author's machine and the two
+  # Linux ones off CI, built on the 22.04 images to keep the glibc floor low enough
+  # to cover Debian 12 and RHEL 9.
   on_macos do
     on_arm do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
-      sha256 "234d322d04b9beda2b00e17dee86f498988f11fce57c4057f8e7f2ce3ebcc34d"
+      sha256 "b5d9f370731d0582f9bf9a30d8cd0fb088010b5fb2abf74ba3efc845127ca9ad"
     end
   end
 
-  on_linux do
-    on_intel do
-      url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-x86_64.tar.gz"
-      sha256 "e5e6e1c9ebad99c9b55e164eb655ac00b05d5795d6e9c5a0883bd46187290ea5"
-    end
-
-    on_arm do
-      url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-arm64.tar.gz"
-      sha256 "8d8dd1992f2c670d48a72adfe5ca0f6398d95e450ba6774e8c6fac446e161243"
-    end
-  end
+  # **The two Linux blocks are absent for THIS version only, and come back at 0.0.82.**
+  # They are built by CI off a release tag, and this is a prerelease: there is no
+  # Linux tarball to point at, and a URL interpolated from a version GitHub has no
+  # asset for is a 404 rather than an honest "not available for your platform".
 
   # A *runtime* dependency rather than a build one. sysl emits textual LLVM IR and
   # shells out from there: clang assembles and links it, and llvm-ar is what builds

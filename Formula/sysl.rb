@@ -1,29 +1,35 @@
 class Sysl < Formula
   desc "Ref-counted systems language that compiles through LLVM"
   homepage "https://sysl.sh/"
-  version "0.0.82-alpha"
+  version "0.0.82"
   license "ISC"
 
-  # **THIS IS A PRERELEASE.** An early, ungated build of what becomes 0.0.82, published
-  # so that work against its four cards can carry on while that release's Native gate
-  # runs. It is superseded by 0.0.82, which restores everything below to its usual
-  # shape -- three tarballs and the glibc floor measured from the binary.
-  #
-  # Ordinarily: each tarball is built where it runs, since Scala Native does not
+  # Three tarballs, and each is built where it runs: Scala Native does not
   # cross-compile, so the macOS binary comes off the author's machine and the two
-  # Linux ones off CI, built on the 22.04 images to keep the glibc floor low enough
-  # to cover Debian 12 and RHEL 9.
+  # Linux ones off CI. Every other platform builds from source, which is a clone
+  # and one sbt invocation.
+  #
+  # The Linux binaries are built on the 22.04 images so the glibc floor stays low
+  # enough to cover Debian 12 and RHEL 9. That floor is measured from the binary
+  # at each release rather than assumed from the image -- 2.34 for this one.
   on_macos do
     on_arm do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
-      sha256 "b5d9f370731d0582f9bf9a30d8cd0fb088010b5fb2abf74ba3efc845127ca9ad"
+      sha256 "7183d38e79a7e96db681d80cdfdb6ca5f82220a3949bba5238a50accc0212fef"
     end
   end
 
-  # **The two Linux blocks are absent for THIS version only, and come back at 0.0.82.**
-  # They are built by CI off a release tag, and this is a prerelease: there is no
-  # Linux tarball to point at, and a URL interpolated from a version GitHub has no
-  # asset for is a 404 rather than an honest "not available for your platform".
+  on_linux do
+    on_intel do
+      url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-x86_64.tar.gz"
+      sha256 "70583bd1837c1662e59fae134d593a301ec0aae0264cc0a4e246ca77e91c4df8"
+    end
+
+    on_arm do
+      url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-arm64.tar.gz"
+      sha256 "0ea3302006005efa69ef6c051f4197912d9a868a2efb6ce2cfa5ec0a29fc862d"
+    end
+  end
 
   # A *runtime* dependency rather than a build one. sysl emits textual LLVM IR and
   # shells out from there: clang assembles and links it, and llvm-ar is what builds

@@ -1,7 +1,7 @@
 class Sysl < Formula
   desc "Ref-counted systems language that compiles through LLVM"
   homepage "https://sysl.sh/"
-  version "0.0.97"
+  version "0.0.98"
   license "ISC"
 
   # Three tarballs, and each is built where it runs: Scala Native does not
@@ -15,19 +15,19 @@ class Sysl < Formula
   on_macos do
     on_arm do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
-      sha256 "7e8ac09c7adfa0ef4e11a7dd01e337c3e5123cca5a8d75a8834ffa9330f00203"
+      sha256 "cbff767a50ca154b75711483afc9577b93aadd6e3e30ee3e64c5191da33c1079"
     end
   end
 
   on_linux do
     on_intel do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-x86_64.tar.gz"
-      sha256 "e729315cbe2a2de152ab45888ae6c965f29852735068b3545a84e7e3f10efbb7"
+      sha256 "fc373a23f9142842612f62e9f3774bd2ce97a6b81b737ac651f25625ff0624dc"
     end
 
     on_arm do
       url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-arm64.tar.gz"
-      sha256 "12e3a2c1c72038b709933000cfd50363239cd002bfedb1225bf75162cd22c024"
+      sha256 "05cac2c3ff387395ab1238e8c338928859cfa0c15486483671b8a7b669aa5532"
     end
   end
 

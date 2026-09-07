@@ -1,6 +1,6 @@
 # sysl-lang Homebrew Tap
 
-The Homebrew tap for [sysl](https://github.com/sysl-lang/sysl) — a ref-counted systems language that
+The Homebrew tap for [sysl](https://github.com/sysl-lang/sysl-bootstrap) — a ref-counted systems language that
 compiles through LLVM to a native executable, with no garbage collector and no borrow checker.
 
 ## Install

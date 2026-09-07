@@ -14,19 +14,19 @@ class Sysl < Formula
   # at each release rather than assumed from the image -- 2.34 for this one.
   on_macos do
     on_arm do
-      url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
+      url "https://github.com/sysl-lang/sysl-bootstrap/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
       sha256 "b9603290f09d1399734c3bbd80e766e68a147515f5f238836897c548b3dca1ed"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-x86_64.tar.gz"
+      url "https://github.com/sysl-lang/sysl-bootstrap/releases/download/v#{version}/sysl-#{version}-linux-x86_64.tar.gz"
       sha256 "4c93550c591fe78084a5da20716185b1a2a1972a111b629d88b08d9ee5709655"
     end
 
     on_arm do
-      url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-linux-arm64.tar.gz"
+      url "https://github.com/sysl-lang/sysl-bootstrap/releases/download/v#{version}/sysl-#{version}-linux-arm64.tar.gz"
       sha256 "e04ccdbdea83c65512773a87eb349aab1f24b3773cb3e0e8a9a76c8e1d33fab5"
     end
   end

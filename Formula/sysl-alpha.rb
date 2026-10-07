@@ -37,8 +37,9 @@ class SyslAlpha < Formula
     assert_match "sysl #{version}", shell_output("#{bin}/sysl --version")
 
     # A tarball without its library installs a compiler that starts and cannot
-    # compile anything.
-    assert_predicate pkgshare/"library/sysl", :directory?
+    # compile anything. It is share/sysl, not pkgshare: the compiler looks for
+    # <prefix>/share/sysl/library whatever the formula is called.
+    assert_predicate share/"sysl/library/sysl", :directory?
 
     (testpath/"hello.sysl").write <<~SYSL
       print("Hello, sysl!")

@@ -1,7 +1,7 @@
 class Sysl < Formula
   desc "Ref-counted systems language that compiles through LLVM"
   homepage "https://sysl.sh/"
-  version "0.1.0-alpha.5"
+  version "0.1.0-alpha.6"
   license "ISC"
 
   # The self-hosted compiler: written in sysl and built by itself, from
@@ -13,7 +13,7 @@ class Sysl < Formula
   depends_on :macos
 
   url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
-  sha256 "98faf02f5a0baa27493d011329bebd3ce418aa2b94b16ff24b62c094c7b5677e"
+  sha256 "e6ec3c62150f9b631f4cbf93558c8d7bbb15d5e70dcda209f740b78eeb14aaf5"
 
   # Runtime dependencies. sysl emits textual LLVM IR and shells out from there:
   # clang assembles and links it, and llvm-ar builds archives (Apple's

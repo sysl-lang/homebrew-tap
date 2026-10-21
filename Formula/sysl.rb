@@ -1,7 +1,7 @@
 class Sysl < Formula
   desc "Ref-counted systems language that compiles through LLVM"
   homepage "https://sysl.sh/"
-  version "0.3.6"
+  version "0.3.7"
   license "ISC"
 
   # The self-hosted compiler: written in sysl and built by itself, from
@@ -13,7 +13,7 @@ class Sysl < Formula
   depends_on :macos
 
   url "https://github.com/sysl-lang/sysl/releases/download/v#{version}/sysl-#{version}-darwin-arm64.tar.gz"
-  sha256 "77d88583690dce918d8fb094f0b2cf791161860b0a18b4abbc3d096fae3b2b3e"
+  sha256 "53bd2f98ba80077831924c9675dfe1ff252ddf3592545c1cf2e1f18898d127b6"
 
   # Runtime dependencies. sysl emits textual LLVM IR and shells out from there:
   # clang assembles and links it, and llvm-ar builds archives (Apple's
@@ -38,6 +38,7 @@ class Sysl < Formula
     # A tarball without its library installs a compiler that starts and cannot
     # compile anything.
     assert_predicate pkgshare/"library/sysl", :directory?
+    assert_predicate pkgshare/"editors/sysl.tmLanguage.json", :file?
 
     # `sysl doc` over the library that shipped in the same tarball: the command is
     # built in, the library is where the compiler looks, and the two came from one

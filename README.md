@@ -19,6 +19,18 @@ so this cannot be left to whatever is already on the machine.
 **Apple silicon only for now.** Other platforms build from source, which is a clone and one sbt
 invocation — see [sysl.sh/getting-started/installation](https://sysl.sh/getting-started/installation/).
 
+## nex
+
+[nex](https://github.com/sysl-lang/nex) is an array-first numerical language with Fortran's
+semantics, written in sysl and compiled through MLIR. It is a separate formula:
+
+```
+brew install sysl-lang/tap/nex
+```
+
+It also takes `llvm` as a runtime dependency, for `mlir-opt`, `mlir-translate`, `clang` and `libomp`.
+`nex run --interp` needs none of them. Apple silicon only for now.
+
 ## Moving from the old tap
 
 sysl used to live in `edadma/homebrew-tap`, before the project moved to the `sysl-lang`

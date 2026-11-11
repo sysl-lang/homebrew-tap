@@ -1,7 +1,7 @@
 class Nex < Formula
   desc "Array-first numerical language with Fortran's semantics, compiled through MLIR"
   homepage "https://github.com/sysl-lang/nex"
-  version "0.0.2"
+  version "0.0.3"
   license "ISC"
 
   # nex is written in sysl and its release tarball is built on the author's machine by
@@ -11,7 +11,7 @@ class Nex < Formula
   depends_on :macos
 
   url "https://github.com/sysl-lang/nex/releases/download/v#{version}/nex-#{version}-darwin-arm64.tar.gz"
-  sha256 "4c8124ef4505b548a25309b7afee9ec68e5a2578995f7755b8055a10d3733e07"
+  sha256 "7cbc5b3d83299173eeef3de6672e676d04ab8eec9f306a1dc94c3297555d0d2a"
 
   # Compiling a program runs LLVM's mlir-opt, mlir-translate and clang, and a program with a
   # `parallel` construct links LLVM's libomp. nex finds them in Homebrew's opt/llvm. The interpreter
